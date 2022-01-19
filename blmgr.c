@@ -30,6 +30,9 @@ int main(int argc, char** argv) {
                 brightness_change *= ((double)max_brightness/(double)100);
             }
             brightness = current_brightness + brightness_change*change_mult;
+        } else {
+            fprintf(stderr, "Unknown argument provded: %s\n", argv[1]);
+            return EXIT_FAILURE;
         }
         break;
     }
