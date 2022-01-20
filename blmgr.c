@@ -5,15 +5,27 @@
 #define BACKLIGHT_PATH_BASE "/sys/class/backlight/intel_backlight/"
 
 int main(int argc, char** argv) {
-    if(argc < 2) {
-        fprintf(stderr, "Too few arguments provided!\n");
-        return EXIT_FAILURE;
-    }
-    static int change_mult = 1;
     int max_brightness;
     FILE* max_brightness_file = fopen(BACKLIGHT_PATH_BASE "max_brightness", "r");
+    if(!max_brightness_file) {
+        perror("Failed to open" BACKLIGHT_PATH_BASE "max_brightness");
+        return EXIT_FAILURE;
+    }
     fscanf(max_brightness_file, "%d", &max_brightness);
     fclose(max_brightness_file);
+    int current_brightness;
+    FILE* current_brightness_file = fopen(BACKLIGHT_PATH_BASE "brightness", "r");
+    if(!current_brightness_file) {
+        perror("Failed to open" BACKLIGHT_PATH_BASE "brightness");
+        return EXIT_FAILURE;
+    }
+    fscanf(current_brightness_file, "%d", &current_brightness);
+    fclose(current_brightness_file);
+    if(argc < 2) {
+        printf("%d%%\n", (int)((double)current_brightness/(double)max_brightness*(double)100));
+        return 0;
+    }
+    static int change_mult = 1;
     static int brightness;
     switch(argv[1][0]) {
     case '-':
@@ -22,10 +34,6 @@ int main(int argc, char** argv) {
     {
         int brightness_change;
         if(sscanf(&argv[1][1], "%d", &brightness_change) > 0) {
-            int current_brightness;
-            FILE* current_brightness_file = fopen(BACKLIGHT_PATH_BASE "brightness", "r");
-            fscanf(current_brightness_file, "%d", &current_brightness);
-            fclose(current_brightness_file);
             if(strchr(&argv[1][1], '%')) {
                 brightness_change *= ((double)max_brightness/(double)100);
             }
