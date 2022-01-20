@@ -8,7 +8,7 @@ Example uses:
 blmgr +5% # Increment brightness by 5%
 blmgr -200 # Decrement brightness by 200
 blmgr 50% # Set brigtness to 50% of total
-blmgr 1000 # Set brighness to value 1000
+blmgr 1000 # Set brigthness to value 1000
 ```
 
 ## Configuration
