@@ -8,7 +8,7 @@ int main(int argc, char** argv) {
     int max_brightness;
     FILE* max_brightness_file = fopen(BACKLIGHT_PATH_BASE "max_brightness", "r");
     if(!max_brightness_file) {
-        perror("Failed to open" BACKLIGHT_PATH_BASE "max_brightness");
+        perror("Failed to open " BACKLIGHT_PATH_BASE "max_brightness");
         return EXIT_FAILURE;
     }
     fscanf(max_brightness_file, "%d", &max_brightness);
@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
     int current_brightness;
     FILE* current_brightness_file = fopen(BACKLIGHT_PATH_BASE "brightness", "r");
     if(!current_brightness_file) {
-        perror("Failed to open" BACKLIGHT_PATH_BASE "brightness");
+        perror("Failed to open " BACKLIGHT_PATH_BASE "brightness");
         return EXIT_FAILURE;
     }
     fscanf(current_brightness_file, "%d", &current_brightness);
@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
     printf("Setting brightness to %d\n", brightness);
     FILE* brightness_file = fopen(BACKLIGHT_PATH_BASE "brightness", "w");
     if(!brightness_file) {
-        perror("Failed to open brightness file");
+        perror("Failed to open " BACKLIGHT_PATH_BASE "brightness with write access");
         return EXIT_FAILURE;
     }
     fprintf(brightness_file, "%d", brightness);
