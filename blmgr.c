@@ -47,6 +47,7 @@ int main(int argc, char** argv) {
     default:
         if(sscanf(argv[1], "%d", &brightness) > 0) {
             if(strchr(argv[1], '%')) {
+                brightness++; // Perhaps due to some rounding, this works better
                 brightness *= ((double)max_brightness/(double)100);
             }
         } else {
