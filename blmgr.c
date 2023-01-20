@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #define BACKLIGHT_PATH_BASE "/sys/class/backlight/intel_backlight/"
 
@@ -57,8 +58,7 @@ main(int argc, char** argv)
         default:
             if (sscanf(argv[1], "%d", &brightness) > 0) {
                 if (strchr(argv[1], '%')) {
-                    brightness++; // Perhaps due to some rounding, this works better
-                    brightness *= ((double)max_brightness/(double)100);
+                    brightness = round((double)brightness*((double)max_brightness/(double)100));
                 }
             } else {
                 fprintf(stderr, "Unknown argument provded: %s\n", argv[1]);

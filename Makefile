@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -Wall -Wextra -O3 -flto=full
+CFLAGS = -lm -Wall -Wextra -O3 -flto=full
 INSTALL_PATH = /usr/local/bin
 
 all:
