@@ -5,6 +5,16 @@
 
 #define BACKLIGHT_PATH_BASE "/sys/class/backlight/intel_backlight/"
 
+void
+usage()
+{
+    fprintf(stderr,
+            "usage: blmgr\n"
+            "       blmgr [+ | -]number[\%%]\n"
+            );
+    exit(EXIT_FAILURE);
+}
+
 int
 main(int argc, char** argv)
 {
@@ -51,7 +61,7 @@ main(int argc, char** argv)
                     brightness = current_brightness + brightness_change*change_mult;
                 } else {
                     fprintf(stderr, "Unknown argument provded: %s\n", argv[1]);
-                    return EXIT_FAILURE;
+                    usage();
                 }
                 break;
             }
@@ -62,7 +72,7 @@ main(int argc, char** argv)
                 }
             } else {
                 fprintf(stderr, "Unknown argument provded: %s\n", argv[1]);
-                return EXIT_FAILURE;
+                usage();
             }
             break;
     }
