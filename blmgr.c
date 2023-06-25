@@ -18,8 +18,7 @@ usage()
 int
 main(int argc, char** argv)
 {
-    int max_brightness;
-    int current_brightness;
+    int max_brightness, current_brightness;
 
     FILE* max_brightness_file = fopen(BACKLIGHT_PATH_BASE "max_brightness", "r");
     if (!max_brightness_file) {
@@ -40,7 +39,7 @@ main(int argc, char** argv)
     fclose(current_brightness_file);
 
     if (argc < 2) {
-        printf("%d%%\n", (int)((double)current_brightness/(double)max_brightness*(double)100));
+        printf("%d%%\n", (int)round(((double)current_brightness / (double)max_brightness * 100.0)));
         return EXIT_SUCCESS;
     }
 
@@ -56,11 +55,11 @@ main(int argc, char** argv)
 
                 if (sscanf(&argv[1][1], "%d", &brightness_change) > 0) {
                     if (strchr(&argv[1][1], '%'))  {
-                        brightness_change *= ((double)max_brightness/(double)100);
+                        brightness_change *= ((double)max_brightness / 100.0);
                     }
-                    brightness = current_brightness + brightness_change*change_mult;
+                    brightness = current_brightness + brightness_change * change_mult;
                 } else {
-                    fprintf(stderr, "Unknown argument provded: %s\n", argv[1]);
+                    fprintf(stderr, "Unknown argument provided: %s\n", argv[1]);
                     usage();
                 }
                 break;
@@ -68,10 +67,10 @@ main(int argc, char** argv)
         default:
             if (sscanf(argv[1], "%d", &brightness) > 0) {
                 if (strchr(argv[1], '%')) {
-                    brightness = round((double)brightness*((double)max_brightness/(double)100));
+                    brightness = round((double)brightness * ((double)max_brightness / 100.0));
                 }
             } else {
-                fprintf(stderr, "Unknown argument provded: %s\n", argv[1]);
+                fprintf(stderr, "Unknown argument provided: %s\n", argv[1]);
                 usage();
             }
             break;
