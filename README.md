@@ -1,4 +1,4 @@
-# blgmr
+# blmgr
 
 A simple and minimal backlight/brightness manager written in under 100 lines of C
 
