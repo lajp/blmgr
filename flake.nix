@@ -17,21 +17,24 @@
     packages = eachSystem (
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
-        blmgr = pkgs.stdenv.mkDerivation {
-          nativeBuildInputs = [pkgs.clang];
-          name = "blmgr";
-          version = "0.1.0";
-          src = ./.;
+        blmgr = pkgs.lib.makeOverridable ({amdgpu ? false}:
+          pkgs.stdenv.mkDerivation {
+            nativeBuildInputs = [pkgs.clang];
+            name = "blmgr";
+            version = "0.1.0";
+            src = ./.;
 
-          buildPhase = ''
-            make
-          '';
+            patches = pkgs.lib.optional amdgpu [./blmgr-amdgpu.patch];
 
-          installPhase = ''
-            mkdir -p $out/bin
-            cp blmgr $out/bin
-          '';
-        };
+            buildPhase = ''
+              make
+            '';
+
+            installPhase = ''
+              mkdir -p $out/bin
+              cp blmgr $out/bin
+            '';
+          }) {amdgpu = false;};
       in {
         inherit blmgr;
         default = blmgr;
